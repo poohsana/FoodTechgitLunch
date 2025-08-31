@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมเมนูอาหารโรงเรียน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Sarabun', sans-serif; }
+        .page { display: none; }
+        .page.active { display: block; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <h1 class="text-2xl font-bold text-blue-800">🍽️ ระบบเมนูอาหารโรงเรียน</h1>
+                <div class="flex space-x-4">
+                    <button onclick="showPage('admin')" id="adminTab" class="px-4 py-2 rounded-lg font-medium transition-colors bg-blue-600 text-white">
+                        📝 จัดการข้อมูล
+                    </button>
+                    <button onclick="showPage('display')" id="displayTab" class="px-4 py-2 rounded-lg font-medium transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300">
+                        📺 แสดงผลเมนู
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page 1: Admin Panel -->
+    <div id="adminPage" class="page active">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-blue-800 mb-2">📝 หน้าจัดการข้อมูล</h2>
+                <p class="text-gray-600">สำหรับทีมสภานักเรียนและแม่ครัว</p>
+            </div>
+
+            <!-- Menu Management -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4">🍽️ จัดการเมนูประจำวัน</h3>
+                
+                <!-- Special Menu -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold text-purple-700 mb-3">⭐ เมนูพิเศษ</h4>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อเมนูพิเศษ</label>
+                            <input type="text" id="specialMenu" placeholder="เช่น สเต็กหมูย่าง" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">แคลอรี่ (กิโลแคลอรี่)</label>
+                            <input type="number" id="specialCalories" placeholder="450" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ส่วนประกอบหลัก</label>
+                            <select id="specialIngredient" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                <option value="">-- เลือกส่วนประกอบหลัก --</option>
+                                <option value="pork">🐷 หมู</option>
+                                <option value="chicken">🐔 ไก่</option>
+                                <option value="beef">🐄 เนื้อ</option>
+                                <option value="duck">🦆 เป็ด</option>
+                                <option value="fish">🐟 ปลา</option>
+                                <option value="shrimp">🦐 กุ้ง</option>
+                                <option value="seafood">🦀 อาหารทะเล</option>
+                                <option value="egg">🥚 ไข่</option>
+                                <option value="tofu">🟡 เต้าหู้</option>
+                                <option value="vegetable">🥬 ผัก</option>
+                                <option value="rice">🍚 ข้าว</option>
+                                <option value="noodle">🍜 เส้น</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Regular Menus -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold text-blue-700 mb-3">🍚 เมนูย่อย (6 เมนู)</h4>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">เมนูที่ 1</label>
+                            <input type="text" id="menu1" placeholder="เช่น ข้าวผัดหมู" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">แคลอรี่</label>
+                            <input type="number" id="calories1" placeholder="350" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ส่วนประกอบหลัก</label>
+                            <select id="ingredient1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">-- เลือกส่วนประกอบหลัก --</option>
+                                <option value="pork">🐷 หมู</option>
+                                <option value="chicken">🐔 ไก่</option>
+                                <option value="beef">🐄 เนื้อ</option>
+                                <option value="duck">🦆 เป็ด</option>
+                                <option value="fish">🐟 ปลา</option>
+                                <option value="shrimp">🦐 กุ้ง</option>
+                                <option value="seafood">🦀 อาหารทะเล</option>
+                                <option value="egg">🥚 ไข่</option>
+                                <option value="tofu">🟡 เต้าหู้</option>
+                                <option value="vegetable">🥬 ผัก</option>
+                                <option value="rice">🍚 ข้าว</option>
+                                <option value="noodle">🍜 เส้น</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">เมนูที่ 2</label>
+                            <input type="text" id="menu2" placeholder="เช่น ผัดไทยกุ้ง" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">แคลอรี่</label>
+                            <input type="number" id="calories2" placeholder="380" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ส่วนประกอบหลัก</label>
+                            <select id="ingredient2" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">-- เลือกส่วนประกอบหลัก --</option>
+                                <option value="pork">🐷 หมู</option>
+                                <option value="chicken">🐔 ไก่</option>
+                                <option value="beef">🐄 เนื้อ</option>
+                                <option value="duck">🦆 เป็ด</option>
+                                <option value="fish">🐟 ปลา</option>
+                                <option value="shrimp">🦐 กุ้ง</option>
+                                <option value="seafood">🦀 อาหารทะเล</option>
+                                <option value="egg">🥚 ไข่</option>
+                                <option value="tofu">🟡 เต้าหู้</option>
+                                <option value="vegetable">🥬 ผัก</option>
+                                <option value="rice">🍚 ข้าว</option>
+                                <option value="noodle">🍜 เส้น</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">เมนูที่ 3</label>
+                            <input type="text" id="menu3" placeholder="เช่น ข้าวมันไก่" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">แคลอรี่</label>
+                            <input type="number" id="calories3" placeholder="420" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ส่วนประกอบหลัก</label>
+                            <select id="ingredient3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">-- เลือกส่วนประกอบหลัก --</option>
+                                <option value="pork">🐷 หมู</option>
+                                <option value="chicken">🐔 ไก่</option>
+                                <option value="beef">🐄 เนื้อ</option>
+                                <option value="duck">🦆 เป็ด</option>
+                                <option value="fish">🐟 ปลา</option>
+                                <option value="shrimp">🦐 กุ้ง</option>
+                                <option value="seafood">🦀 อาหารทะเล</option>
+                                <option value="egg">🥚 ไข่</option>
+                                <option value="tofu">🟡 เต้าหู้</option>
+                                <option value="vegetable">🥬 ผัก</option>
+                                <option value="rice">🍚 ข้าว</option>
+                                <option value="noodle">🍜 เส้น</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">เมนูที่ 4</label>
+                            <input type="text" id="menu4" placeholder="เช่น แกงเขียวหวานไก่" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">แคลอรี่</label>
+                            <input type="number" id="calories4" placeholder="320" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ส่วนประกอบหลัก</label>
+                            <select id="ingredient4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">-- เลือกส่วนประกอบหลัก --</option>
+                                <option value="pork">🐷 หมู</option>
+                                <option value="chicken">🐔 ไก่</option>
+                                <option value="beef">🐄 เนื้อ</option>
+                                <option value="duck">🦆 เป็ด</option>
+                                <option value="fish">🐟 ปลา</option>
+                                <option value="shrimp">🦐 กุ้ง</option>
+                                <option value="seafood">🦀 อาหารทะเล</option>
+                                <option value="egg">🥚 ไข่</option>
+                                <option value="tofu">🟡 เต้าหู้</option>
+                                <option value="vegetable">🥬 ผัก</option>
+                                <option value="rice">🍚 ข้าว</option>
+                                <option value="noodle">🍜 เส้น</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">เมนูที่ 5</label>
+                            <input type="text" id="menu5" placeholder="เช่น ส้มตำ" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">แคลอรี่</label>
+                            <input type="number" id="calories5" placeholder="180" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ส่วนประกอบหลัก</label>
+                            <select id="ingredient5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">-- เลือกส่วนประกอบหลัก --</option>
+                                <option value="pork">🐷 หมู</option>
+                                <option value="chicken">🐔 ไก่</option>
+                                <option value="beef">🐄 เนื้อ</option>
+                                <option value="duck">🦆 เป็ด</option>
+                                <option value="fish">🐟 ปลา</option>
+                                <option value="shrimp">🦐 กุ้ง</option>
+                                <option value="seafood">🦀 อาหารทะเล</option>
+                                <option value="egg">🥚 ไข่</option>
+                                <option value="tofu">🟡 เต้าหู้</option>
+                                <option value="vegetable">🥬 ผัก</option>
+                                <option value="rice">🍚 ข้าว</option>
+                                <option value="noodle">🍜 เส้น</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">เมนูที่ 6</label>
+                            <input type="text" id="menu6" placeholder="เช่น ข้าวซอยไก่" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">แคลอรี่</label>
+                            <input type="number" id="calories6" placeholder="290" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ส่วนประกอบหลัก</label>
+                            <select id="ingredient6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">-- เลือกส่วนประกอบหลัก --</option>
+                                <option value="pork">🐷 หมู</option>
+                                <option value="chicken">🐔 ไก่</option>
+                                <option value="beef">🐄 เนื้อ</option>
+                                <option value="duck">🦆 เป็ด</option>
+                                <option value="fish">🐟 ปลา</option>
+                                <option value="shrimp">🦐 กุ้ง</option>
+                                <option value="seafood">🦀 อาหารทะเล</option>
+                                <option value="egg">🥚 ไข่</option>
+                                <option value="tofu">🟡 เต้าหู้</option>
+                                <option value="vegetable">🥬 ผัก</option>
+                                <option value="rice">🍚 ข้าว</option>
+                                <option value="noodle">🍜 เส้น</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Upload -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold text-green-700 mb-3">🎬 วิดีโอประกอบ</h4>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">อัปโหลดวิดีโอ</label>
+                            <input type="file" id="videoFile" accept="video/*" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            <p class="text-sm text-gray-500 mt-1">รองรับไฟล์ MP4, MOV, AVI (ขนาดไม่เกิน 50MB)</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">หรือใส่ลิงก์ YouTube</label>
+                            <input type="url" id="youtubeLink" placeholder="https://www.youtube.com/watch?v=..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            <p class="text-sm text-gray-500 mt-1">วางลิงก์ YouTube ที่ต้องการแสดง</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">วันที่</label>
+                    <input type="date" id="menuDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent max-w-xs">
+                </div>
+
+                <div class="flex gap-4">
+                    <button onclick="saveMenu()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                        💾 บันทึกเมนู
+                    </button>
+                    <button onclick="clearMenuForm()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                        🗑️ ล้างข้อมูล
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Page 2: Display Panel -->
+    <div id="displayPage" class="page">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold text-green-700 mb-2">📺 หน้าแสดงผลเมนู</h2>
+                <p class="text-gray-600">สำหรับแสดงในช่วงเบรกเช้า</p>
+            </div>
+
+            <!-- Slideshow Display -->
+            <div id="menuDisplay" class="mb-8">
+                <div class="text-center mb-8">
+                    <h3 class="text-4xl font-bold text-blue-800 mb-4">🍽️ อาหารวันนี้</h3>
+                    <p id="displayDate" class="text-2xl text-gray-600 font-medium mb-8"></p>
+                </div>
+
+                <!-- Slide Controls -->
+                <div class="text-center mb-6">
+                    <div class="inline-flex bg-white rounded-lg shadow-md p-2 gap-2">
+                        <button onclick="showSlide(0)" id="slideBtn0" class="px-4 py-2 text-sm bg-blue-500 text-white rounded transition-colors">⭐ เมนูพิเศษ</button>
+                        <button onclick="showSlide(1)" id="slideBtn1" class="px-4 py-2 text-sm bg-blue-100 hover:bg-blue-200 rounded transition-colors">🎬 วิดีโอ</button>
+                        <button onclick="showSlide(2)" id="slideBtn2" class="px-4 py-2 text-sm bg-blue-100 hover:bg-blue-200 rounded transition-colors">🍽️ เมนูทั้งหมด</button>
+                        <button onclick="toggleFullscreen()" id="fullscreenBtn" class="hidden md:inline-block px-4 py-2 text-sm bg-purple-500 hover:bg-purple-600 text-white rounded transition-colors">🖥️ เต็มหน้าจอ</button>
+                    </div>
+                </div>
+
+                <!-- Slide 1: Special Menu -->
+                <div id="slide0" class="slide-content">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="bg-gradient-to-br from-purple-100 to-pink-100 border-4 border-purple-300 rounded-2xl p-12 shadow-2xl">
+                            <div class="text-center">
+                                <h4 class="text-3xl font-bold text-purple-800 mb-6">⭐ เมนูพิเศษประจำวัน</h4>
+                                <div class="text-8xl mb-6">⭐</div>
+                                <p id="displaySpecial" class="text-4xl text-gray-800 font-bold mb-4"></p>
+                                <p id="displaySpecialCalories" class="text-2xl text-purple-700 font-medium mb-4"></p>
+                                <div id="displaySpecialIngredient" class="text-6xl mb-4"></div>
+                                <div class="bg-white rounded-lg p-4 inline-block shadow-md">
+                                    <p class="text-lg text-gray-600">เมนูพิเศษที่คัดสรรมาเป็นพิเศษสำหรับวันนี้</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Video -->
+                <div id="slide1" class="slide-content hidden">
+                    <div class="max-w-5xl mx-auto">
+                        <div class="bg-gradient-to-br from-green-100 to-blue-100 border-4 border-green-300 rounded-2xl p-8 shadow-2xl">
+                            <div class="text-center mb-6">
+                                <h4 class="text-3xl font-bold text-green-800 mb-4">🎬 วิดีโอประกอบ</h4>
+                                
+                                <!-- Video Size Controls -->
+                                <div class="mb-6">
+                                    <div class="flex flex-wrap justify-center bg-white rounded-lg shadow-md p-2 gap-2">
+                                        <button onclick="setVideoSize('small')" class="px-3 py-2 text-sm bg-blue-100 hover:bg-blue-200 rounded transition-colors min-w-[60px]">เล็ก</button>
+                                        <button onclick="setVideoSize('medium')" class="px-3 py-2 text-sm bg-blue-500 text-white rounded transition-colors min-w-[60px]">กลาง</button>
+                                        <button onclick="setVideoSize('large')" class="px-3 py-2 text-sm bg-blue-100 hover:bg-blue-200 rounded transition-colors min-w-[60px]">ใหญ่</button>
+                                        <button onclick="setVideoSize('xlarge')" class="px-3 py-2 text-sm bg-blue-100 hover:bg-blue-200 rounded transition-colors min-w-[70px]">ใหญ่มาก</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Video Display -->
+                            <div id="videoDisplay" class="w-full max-w-4xl mx-auto px-4">
+                                <div id="videoContainer" class="w-full bg-gradient-to-br from-blue-50 to-green-50 rounded-xl overflow-hidden shadow-lg transition-all duration-300 aspect-video">
+                                    <div class="flex items-center justify-center h-full bg-gradient-to-br from-blue-50 to-green-50 text-gray-600 rounded-lg">
+                                        <div class="text-center p-4">
+                                            <div class="text-4xl md:text-6xl mb-4">🎬</div>
+                                            <p class="text-lg md:text-xl">ยังไม่มีวิดีโอ</p>
+                                            <p class="text-sm md:text-lg mt-2">กรุณาอัปโหลดวิดีโอหรือใส่ลิงก์ YouTube</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: All Menus -->
+                <div id="slide2" class="slide-content hidden">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="bg-gradient-to-br from-yellow-100 to-orange-100 border-4 border-yellow-300 rounded-2xl p-8 shadow-2xl">
+                            <div class="text-center mb-8">
+                                <h4 class="text-3xl font-bold text-orange-800 mb-4">🍽️ เมนูอาหารทั้งหมด</h4>
+                                <p class="text-lg text-gray-600">เลือกเมนูที่ชื่นชอบได้ตามใจ</p>
+                            </div>
+
+                            <!-- Menu Grid -->
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                                <!-- Menu 1 -->
+                                <div class="bg-white border-2 border-orange-200 rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                                    <div class="text-5xl mb-4">🍚</div>
+                                    <h5 class="text-lg font-bold text-orange-700 mb-2">อาหารที่ 1</h5>
+                                    <p id="displayMenu1" class="text-base text-gray-800 font-medium mb-2"></p>
+                                    <p id="displayCalories1" class="text-sm text-orange-600 mb-2"></p>
+                                    <div id="displayIngredient1" class="text-2xl"></div>
+                                </div>
+
+                                <!-- Menu 2 -->
+                                <div class="bg-white border-2 border-orange-200 rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                                    <div class="text-5xl mb-4">🍜</div>
+                                    <h5 class="text-lg font-bold text-orange-700 mb-2">อาหารที่ 2</h5>
+                                    <p id="displayMenu2" class="text-base text-gray-800 font-medium mb-2"></p>
+                                    <p id="displayCalories2" class="text-sm text-orange-600 mb-2"></p>
+                                    <div id="displayIngredient2" class="text-2xl"></div>
+                                </div>
+
+                                <!-- Menu 3 -->
+                                <div class="bg-white border-2 border-orange-200 rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                                    <div class="text-5xl mb-4">🍛</div>
+                                    <h5 class="text-lg font-bold text-orange-700 mb-2">อาหารที่ 3</h5>
+                                    <p id="displayMenu3" class="text-base text-gray-800 font-medium mb-2"></p>
+                                    <p id="displayCalories3" class="text-sm text-orange-600 mb-2"></p>
+                                    <div id="displayIngredient3" class="text-2xl"></div>
+                                </div>
+
+                                <!-- Menu 4 -->
+                                <div class="bg-white border-2 border-orange-200 rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                                    <div class="text-5xl mb-4">🍲</div>
+                                    <h5 class="text-lg font-bold text-orange-700 mb-2">อาหารที่ 4</h5>
+                                    <p id="displayMenu4" class="text-base text-gray-800 font-medium mb-2"></p>
+                                    <p id="displayCalories4" class="text-sm text-orange-600 mb-2"></p>
+                                    <div id="displayIngredient4" class="text-2xl"></div>
+                                </div>
+
+                                <!-- Menu 5 -->
+                                <div class="bg-white border-2 border-orange-200 rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                                    <div class="text-5xl mb-4">🥗</div>
+                                    <h5 class="text-lg font-bold text-orange-700 mb-2">อาหารที่ 5</h5>
+                                    <p id="displayMenu5" class="text-base text-gray-800 font-medium mb-2"></p>
+                                    <p id="displayCalories5" class="text-sm text-orange-600 mb-2"></p>
+                                    <div id="displayIngredient5" class="text-2xl"></div>
+                                </div>
+
+                                <!-- Menu 6 -->
+                                <div class="bg-white border-2 border-orange-200 rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                                    <div class="text-5xl mb-4">🍝</div>
+                                    <h5 class="text-lg font-bold text-orange-700 mb-2">อาหารที่ 6</h5>
+                                    <p id="displayMenu6" class="text-base text-gray-800 font-medium mb-2"></p>
+                                    <p id="displayCalories6" class="text-sm text-orange-600 mb-2"></p>
+                                    <div id="displayIngredient6" class="text-2xl"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Auto-slide Controls -->
+                <div class="text-center mt-8">
+                    <div class="inline-flex bg-white rounded-lg shadow-md p-2 gap-2">
+                        <button onclick="toggleAutoSlide()" id="autoSlideBtn" class="px-4 py-2 text-sm bg-green-500 text-white rounded transition-colors">
+                            ▶️ เริ่มสไลด์อัตโนมัติ
+                        </button>
+                        <select id="slideSpeed" onchange="updateSlideSpeed()" class="px-3 py-2 text-sm border border-gray-300 rounded">
+                            <option value="3000">3 วินาที</option>
+                            <option value="5000" selected>5 วินาที</option>
+                            <option value="8000">8 วินาที</option>
+                            <option value="10000">10 วินาที</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Menu Message -->
+            <div id="noMenuMessage" class="bg-gray-100 rounded-xl p-12 text-center">
+                <div class="text-8xl mb-6">🍽️</div>
+                <h3 class="text-3xl font-bold text-gray-600 mb-4">ยังไม่มีเมนูสำหรับวันนี้</h3>
+                <p class="text-xl text-gray-500 mb-6">กรุณาไปที่หน้าจัดการข้อมูลเพื่อเพิ่มเมนู</p>
+                <button onclick="showPage('admin')" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-colors">
+                    📝 ไปหน้าจัดการข้อมูล
+                </button>
+            </div>
+
+            <!-- Refresh Button -->
+            <div class="text-center mt-8">
+                <button onclick="refreshDisplay()" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-colors">
+                    🔄 รีเฟรชข้อมูล
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMenu = null;
+        let currentSlide = 0;
+        let autoSlideInterval = null;
+        let isAutoSliding = false;
+
+        // Initialize
+        document.getElementById('menuDate').valueAsDate = new Date();
+        refreshDisplay();
+
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            
+            // Show selected page
+            if (page === 'admin') {
+                document.getElementById('adminPage').classList.add('active');
+                document.getElementById('adminTab').className = 'px-4 py-2 rounded-lg font-medium transition-colors bg-blue-600 text-white';
+                document.getElementById('displayTab').className = 'px-4 py-2 rounded-lg font-medium transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300';
+            } else {
+                document.getElementById('displayPage').classList.add('active');
+                document.getElementById('displayTab').className = 'px-4 py-2 rounded-lg font-medium transition-colors bg-blue-600 text-white';
+                document.getElementById('adminTab').className = 'px-4 py-2 rounded-lg font-medium transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300';
+                refreshDisplay();
+            }
+        }
+
+
+
+        function saveMenu() {
+            const specialMenu = document.getElementById('specialMenu').value;
+            const specialCalories = document.getElementById('specialCalories').value;
+            const specialIngredient = document.getElementById('specialIngredient').value;
+            const menu1 = document.getElementById('menu1').value;
+            const calories1 = document.getElementById('calories1').value;
+            const ingredient1 = document.getElementById('ingredient1').value;
+            const menu2 = document.getElementById('menu2').value;
+            const calories2 = document.getElementById('calories2').value;
+            const ingredient2 = document.getElementById('ingredient2').value;
+            const menu3 = document.getElementById('menu3').value;
+            const calories3 = document.getElementById('calories3').value;
+            const ingredient3 = document.getElementById('ingredient3').value;
+            const menu4 = document.getElementById('menu4').value;
+            const calories4 = document.getElementById('calories4').value;
+            const ingredient4 = document.getElementById('ingredient4').value;
+            const menu5 = document.getElementById('menu5').value;
+            const calories5 = document.getElementById('calories5').value;
+            const ingredient5 = document.getElementById('ingredient5').value;
+            const videoFile = document.getElementById('videoFile').files[0];
+            const youtubeLink = document.getElementById('youtubeLink').value;
+            const date = document.getElementById('menuDate').value;
+
+            const menu6 = document.getElementById('menu6').value;
+            const calories6 = document.getElementById('calories6').value;
+            const ingredient6 = document.getElementById('ingredient6').value;
+
+            if (!specialMenu && !menu1 && !menu2 && !menu3 && !menu4 && !menu5 && !menu6) {
+                alert('กรุณากรอกเมนูอย่างน้อย 1 รายการ');
+                return;
+            }
+
+            if (!date) {
+                alert('กรุณาเลือกวันที่');
+                return;
+            }
+
+            // Convert images and video to base64
+            const processFiles = async () => {
+                const convertToBase64 = (file) => {
+                    return new Promise((resolve) => {
+                        if (!file) {
+                            resolve(null);
+                            return;
+                        }
+                        const reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.readAsDataURL(file);
+                    });
+                };
+
+                const videoBase64 = await convertToBase64(videoFile);
+
+                currentMenu = {
+                    special: { name: specialMenu, calories: specialCalories, ingredient: specialIngredient },
+                    menu1: { name: menu1, calories: calories1, ingredient: ingredient1 },
+                    menu2: { name: menu2, calories: calories2, ingredient: ingredient2 },
+                    menu3: { name: menu3, calories: calories3, ingredient: ingredient3 },
+                    menu4: { name: menu4, calories: calories4, ingredient: ingredient4 },
+                    menu5: { name: menu5, calories: calories5, ingredient: ingredient5 },
+                    menu6: { name: menu6, calories: calories6, ingredient: ingredient6 },
+                    video: { file: videoBase64, youtube: youtubeLink },
+                    date: date
+                };
+
+                // Save to localStorage
+                localStorage.setItem('currentMenu', JSON.stringify(currentMenu));
+                
+                alert('บันทึกเมนูเรียบร้อยแล้ว!');
+            };
+
+            processFiles();
+        }
+
+        function clearMenuForm() {
+            document.getElementById('specialMenu').value = '';
+            document.getElementById('specialCalories').value = '';
+            document.getElementById('specialIngredient').value = '';
+            document.getElementById('menu1').value = '';
+            document.getElementById('calories1').value = '';
+            document.getElementById('ingredient1').value = '';
+            document.getElementById('menu2').value = '';
+            document.getElementById('calories2').value = '';
+            document.getElementById('ingredient2').value = '';
+            document.getElementById('menu3').value = '';
+            document.getElementById('calories3').value = '';
+            document.getElementById('ingredient3').value = '';
+            document.getElementById('menu4').value = '';
+            document.getElementById('calories4').value = '';
+            document.getElementById('ingredient4').value = '';
+            document.getElementById('menu5').value = '';
+            document.getElementById('calories5').value = '';
+            document.getElementById('ingredient5').value = '';
+            document.getElementById('menu6').value = '';
+            document.getElementById('calories6').value = '';
+            document.getElementById('ingredient6').value = '';
+            document.getElementById('videoFile').value = '';
+            document.getElementById('youtubeLink').value = '';
+            document.getElementById('menuDate').valueAsDate = new Date();
+        }
+
+        function refreshDisplay() {
+            // Load data from localStorage
+            const savedMenu = localStorage.getItem('currentMenu');
+            
+            if (savedMenu) {
+                currentMenu = JSON.parse(savedMenu);
+            }
+
+            const menuDisplay = document.getElementById('menuDisplay');
+            const noMenuMessage = document.getElementById('noMenuMessage');
+
+            if (!currentMenu || (!currentMenu.special.name && !currentMenu.menu1.name && !currentMenu.menu2.name && !currentMenu.menu3.name && !currentMenu.menu4.name && !currentMenu.menu5.name && !currentMenu.menu6.name)) {
+                menuDisplay.style.display = 'none';
+                noMenuMessage.style.display = 'block';
+                return;
+            }
+
+            menuDisplay.style.display = 'block';
+            noMenuMessage.style.display = 'none';
+
+            // Format and display date
+            if (currentMenu.date) {
+                const dateObj = new Date(currentMenu.date);
+                const options = { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                };
+                document.getElementById('displayDate').textContent = 
+                    dateObj.toLocaleDateString('th-TH', options);
+            }
+
+            // Display video
+            const videoContainer = document.getElementById('videoContainer');
+            const videoDisplay = document.getElementById('videoDisplay');
+            
+            console.log('Video data:', currentMenu.video); // Debug log
+            
+            if (currentMenu.video && (currentMenu.video.file || currentMenu.video.youtube)) {
+                videoDisplay.style.display = 'block';
+                
+                if (currentMenu.video.youtube && currentMenu.video.youtube.trim() !== '') {
+                    // Extract YouTube video ID and create embed
+                    const youtubeId = extractYouTubeId(currentMenu.video.youtube);
+                    console.log('YouTube ID:', youtubeId); // Debug log
+                    if (youtubeId) {
+                        videoContainer.innerHTML = `
+                            <iframe width="100%" height="100%" 
+                                src="https://www.youtube.com/embed/${youtubeId}?autoplay=0&mute=1" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen
+                                class="w-full h-full">
+                            </iframe>
+                        `;
+                    } else {
+                        videoContainer.innerHTML = `
+                            <div class="flex items-center justify-center h-full bg-gradient-to-br from-red-50 to-red-100 text-red-600 rounded-lg">
+                                <div class="text-center p-4">
+                                    <div class="text-2xl md:text-4xl mb-2">❌</div>
+                                    <p class="text-sm md:text-base">ลิงก์ YouTube ไม่ถูกต้อง</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else if (currentMenu.video.file) {
+                    // Display uploaded video file
+                    console.log('Video file found'); // Debug log
+                    videoContainer.innerHTML = `
+                        <video width="100%" height="100%" controls preload="metadata" class="w-full h-full object-contain">
+                            <source src="${currentMenu.video.file}" type="video/mp4">
+                            <source src="${currentMenu.video.file}" type="video/mov">
+                            <source src="${currentMenu.video.file}" type="video/avi">
+                            <source src="${currentMenu.video.file}" type="video/webm">
+                            <div class="flex items-center justify-center h-full bg-gradient-to-br from-yellow-50 to-yellow-100 text-yellow-600">
+                                <div class="text-center p-4">
+                                    <div class="text-2xl md:text-4xl mb-2">⚠️</div>
+                                    <p class="text-sm md:text-base">เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอนี้</p>
+                                </div>
+                            </div>
+                        </video>
+                    `;
+                } else {
+                    videoContainer.innerHTML = `
+                        <div class="flex items-center justify-center h-full bg-gradient-to-br from-blue-50 to-green-50 text-gray-600 rounded-lg">
+                            <div class="text-center p-4">
+                                <div class="text-2xl md:text-4xl mb-2">📹</div>
+                                <p class="text-sm md:text-base">ไม่พบข้อมูลวิดีโอ</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            } else {
+                console.log('No video data found'); // Debug log
+                videoContainer.innerHTML = `
+                    <div class="flex items-center justify-center h-full bg-gradient-to-br from-blue-50 to-green-50 text-gray-600 rounded-lg">
+                        <div class="text-center p-4">
+                            <div class="text-4xl md:text-6xl mb-4">🎬</div>
+                            <p class="text-lg md:text-xl">ยังไม่มีวิดีโอ</p>
+                            <p class="text-sm md:text-lg mt-2">กรุณาอัปโหลดวิดีโอหรือใส่ลิงก์ YouTube</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Display menus and images
+            document.getElementById('displaySpecial').textContent = currentMenu.special.name || 'ไม่มี';
+            document.getElementById('displaySpecialCalories').textContent = currentMenu.special.calories ? `${currentMenu.special.calories} แคลอรี่` : '';
+            
+            // Display special menu ingredient icon
+            const specialIngredientIcon = getIngredientIcon(currentMenu.special.ingredient);
+            document.getElementById('displaySpecialIngredient').textContent = specialIngredientIcon;
+            
+            // Display regular menus
+            for (let i = 1; i <= 6; i++) {
+                const menu = currentMenu[`menu${i}`];
+                document.getElementById(`displayMenu${i}`).textContent = menu.name || 'ไม่มี';
+                document.getElementById(`displayCalories${i}`).textContent = menu.calories ? `${menu.calories} แคลอรี่` : '';
+                
+                // Display ingredient icon
+                const ingredientIcon = getIngredientIcon(menu.ingredient);
+                document.getElementById(`displayIngredient${i}`).textContent = ingredientIcon;
+            }
+
+        }
+
+        function getIngredientIcon(ingredient) {
+            const icons = {
+                'pork': '🐷',
+                'chicken': '🐔',
+                'beef': '🐄',
+                'duck': '🦆',
+                'fish': '🐟',
+                'shrimp': '🦐',
+                'seafood': '🦀',
+                'egg': '🥚',
+                'tofu': '🟡',
+                'vegetable': '🥬',
+                'rice': '🍚',
+                'noodle': '🍜'
+            };
+            return icons[ingredient] || '';
+        }
+
+        function extractYouTubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function showSlide(slideIndex) {
+            // Hide all slides
+            document.querySelectorAll('.slide-content').forEach(slide => {
+                slide.classList.add('hidden');
+            });
+            
+            // Update button styles
+            document.querySelectorAll('[id^="slideBtn"]').forEach(btn => {
+                btn.className = 'px-4 py-2 text-sm bg-blue-100 hover:bg-blue-200 rounded transition-colors';
+            });
+            
+            // Show selected slide
+            document.getElementById(`slide${slideIndex}`).classList.remove('hidden');
+            document.getElementById(`slideBtn${slideIndex}`).className = 'px-4 py-2 text-sm bg-blue-500 text-white rounded transition-colors';
+            
+            currentSlide = slideIndex;
+        }
+
+        function toggleAutoSlide() {
+            const btn = document.getElementById('autoSlideBtn');
+            
+            if (isAutoSliding) {
+                // Stop auto slide
+                clearInterval(autoSlideInterval);
+                isAutoSliding = false;
+                btn.innerHTML = '▶️ เริ่มสไลด์อัตโนมัติ';
+                btn.className = 'px-4 py-2 text-sm bg-green-500 text-white rounded transition-colors';
+            } else {
+                // Start auto slide
+                const speed = parseInt(document.getElementById('slideSpeed').value);
+                autoSlideInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % 3;
+                    showSlide(currentSlide);
+                }, speed);
+                isAutoSliding = true;
+                btn.innerHTML = '⏸️ หยุดสไลด์อัตโนมัติ';
+                btn.className = 'px-4 py-2 text-sm bg-red-500 text-white rounded transition-colors';
+            }
+        }
+
+        function updateSlideSpeed() {
+            if (isAutoSliding) {
+                // Restart with new speed
+                clearInterval(autoSlideInterval);
+                const speed = parseInt(document.getElementById('slideSpeed').value);
+                autoSlideInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % 3;
+                    showSlide(currentSlide);
+                }, speed);
+            }
+        }
+
+        function setVideoSize(size) {
+            const videoContainer = document.getElementById('videoContainer');
+            const videoDisplay = document.getElementById('videoDisplay');
+            
+            // Update button styles
+            document.querySelectorAll('[onclick^="setVideoSize"]').forEach(btn => {
+                btn.className = 'px-3 py-2 text-sm bg-blue-100 hover:bg-blue-200 rounded transition-colors min-w-[60px]';
+            });
+            
+            let maxWidth, aspectRatio;
+            switch(size) {
+                case 'small':
+                    maxWidth = 'max-w-sm sm:max-w-md';
+                    aspectRatio = 'aspect-video';
+                    event.target.className = 'px-3 py-2 text-sm bg-blue-500 text-white rounded transition-colors min-w-[60px]';
+                    break;
+                case 'medium':
+                    maxWidth = 'max-w-md sm:max-w-lg md:max-w-2xl';
+                    aspectRatio = 'aspect-video';
+                    event.target.className = 'px-3 py-2 text-sm bg-blue-500 text-white rounded transition-colors min-w-[60px]';
+                    break;
+                case 'large':
+                    maxWidth = 'max-w-lg sm:max-w-xl md:max-w-3xl lg:max-w-4xl';
+                    aspectRatio = 'aspect-video';
+                    event.target.className = 'px-3 py-2 text-sm bg-blue-500 text-white rounded transition-colors min-w-[60px]';
+                    break;
+                case 'xlarge':
+                    maxWidth = 'max-w-xl sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl';
+                    aspectRatio = 'aspect-video';
+                    event.target.className = 'px-3 py-2 text-sm bg-blue-500 text-white rounded transition-colors min-w-[70px]';
+                    break;
+                default:
+                    maxWidth = 'max-w-md sm:max-w-lg md:max-w-2xl';
+                    aspectRatio = 'aspect-video';
+            }
+            
+            // Remove old height style and apply responsive classes
+            videoContainer.style.height = '';
+            videoContainer.className = `w-full bg-gradient-to-br from-blue-50 to-green-50 rounded-xl overflow-hidden shadow-lg transition-all duration-300 ${aspectRatio}`;
+            videoDisplay.className = `w-full ${maxWidth} mx-auto px-4`;
+            
+            // Refresh video display to apply new size
+            refreshDisplay();
+        }
+
+        function toggleFullscreen() {
+            const displayPage = document.getElementById('displayPage');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            
+            if (!document.fullscreenElement) {
+                // Enter fullscreen
+                if (displayPage.requestFullscreen) {
+                    displayPage.requestFullscreen();
+                } else if (displayPage.webkitRequestFullscreen) {
+                    displayPage.webkitRequestFullscreen();
+                } else if (displayPage.msRequestFullscreen) {
+                    displayPage.msRequestFullscreen();
+                }
+                fullscreenBtn.innerHTML = '🔲 ออกจากเต็มหน้าจอ';
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                fullscreenBtn.innerHTML = '🖥️ เต็มหน้าจอ';
+            }
+        }
+
+        // Listen for fullscreen changes
+        document.addEventListener('fullscreenchange', function() {
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const displayPage = document.getElementById('displayPage');
+            if (document.fullscreenElement) {
+                fullscreenBtn.innerHTML = '🔲 ออกจากเต็มหน้าจอ';
+                // Add background gradient when in fullscreen
+                displayPage.style.background = 'linear-gradient(to bottom right, rgb(239 246 255), rgb(240 253 244))';
+                displayPage.style.minHeight = '100vh';
+            } else {
+                fullscreenBtn.innerHTML = '🖥️ เต็มหน้าจอ';
+                // Remove background when exiting fullscreen
+                displayPage.style.background = '';
+                displayPage.style.minHeight = '';
+            }
+        });
+
+        // Handle webkit fullscreen change
+        document.addEventListener('webkitfullscreenchange', function() {
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const displayPage = document.getElementById('displayPage');
+            if (document.webkitFullscreenElement) {
+                fullscreenBtn.innerHTML = '🔲 ออกจากเต็มหน้าจอ';
+                // Add background gradient when in fullscreen
+                displayPage.style.background = 'linear-gradient(to bottom right, rgb(239 246 255), rgb(240 253 244))';
+                displayPage.style.minHeight = '100vh';
+            } else {
+                fullscreenBtn.innerHTML = '🖥️ เต็มหน้าจอ';
+                // Remove background when exiting fullscreen
+                displayPage.style.background = '';
+                displayPage.style.minHeight = '';
+            }
+        });
+
+
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9779d02815e7731c',t:'MTc1NjYxNDg0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
